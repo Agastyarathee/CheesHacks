@@ -13,7 +13,8 @@ from firebase_admin import credentials, db
 from flask_cors import CORS
 import csv
 import import_ipynb
-import Cheese_Hacks_Version3 as ml 
+from mlFunctions import listOfMatchingClubs
+
 # Initialize Flask app
 app = Flask(__name__)
 
@@ -54,7 +55,8 @@ def submit_user_data():
         # ref.push(schema)  # Pushes the schema to the database
 
          # Run the AI model on the user data
-        ai_result = ml.listOfMatchingClubs(event_descriptions,club_title,club_descriptions,user_data.teamwork,user_data.community_service,user_data.leadership,user_data.learning,user_data.critical_thinking,user_data.hobbies,user_data.club_wants)
+        print(user_data.get('teamwork'))
+        ai_result = listOfMatchingClubs( event_descriptions,club_title,club_descriptions, user_data.get('teamwork') , user_data.get('community_service') , user_data.get('leadership'), user_data.get('learning'), user_data.get('critical_thinking'), user_data.get('hobbies') , user_data.get('club_wants'))
         print(ai_result)
         
 
