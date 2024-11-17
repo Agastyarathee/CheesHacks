@@ -1,5 +1,6 @@
 import React from 'react';
 import Page1 from './Page1';
+import './App.css';  // Import your CSS file for styling
 
 function App() {
   return (
@@ -10,4 +11,3 @@ function App() {
 }
 
 export default App;
-

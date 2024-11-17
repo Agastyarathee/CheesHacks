@@ -10,15 +10,18 @@ const FormWrapper = styled.div`
   max-width: 500px;
   margin: auto;
   padding: 20px;
-  background: #ffffff;
+  background: #24292f; /* GitHub Blue background */
   border-radius: 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Optional subtle shadow */
   font-family: Arial, sans-serif;
+  color: #fff; /* White text for general text */
 `;
 
 const FormHeader = styled.h2`
   text-align: center;
-  color: #2575fc;
+  color: #fff; /* White title */
+  font-size: 2.5rem; /* Increase font size */
+  margin-bottom: 20px;
 `;
 
 const FormField = styled.div`
@@ -29,7 +32,7 @@ const Label = styled.label`
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
-  color: #333;
+  color: #fff; /* White text for labels (questions) */
 `;
 
 const RadioGroup = styled.div`
@@ -68,7 +71,6 @@ const Feedback = styled.p`
 
 const Page1 = () => {
   // Define the questions
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const questions = [
     {
       id: "teamwork",
