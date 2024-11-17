@@ -55,8 +55,7 @@ def submit_user_data():
         # ref.push(schema)  # Pushes the schema to the database
 
          # Run the AI model on the user data
-        print(user_data.get('teamwork'))
-        ai_result = listOfMatchingClubs( event_descriptions,club_title,club_descriptions, user_data.get('teamwork') , user_data.get('community_service') , user_data.get('leadership'), user_data.get('learning'), user_data.get('critical_thinking'), user_data.get('hobbies') , user_data.get('club_wants'))
+        ai_result = listOfMatchingClubs(club_title,club_descriptions, user_data.get('teamwork') , user_data.get('community_service') , user_data.get('leadership'), user_data.get('learning'), user_data.get('critical_thinking'), user_data.get('hobbies') , user_data.get('club_preferences'))
         if(ai_result == []):
             return jsonify({"error": "No matching clubs found"}), 404
         return "", 200
