@@ -21,6 +21,7 @@ with open('organizations_data.csv', mode='r', encoding='utf-8') as file:
 
 # Extract only the descriptions from the organizations data
 club_descriptions = [row['description'] for row in organizations_data]
+club_title = [row['name'] for row in organizations_data]
 # Read the event details CSV file
 with open('event_details.csv', mode='r', encoding='utf-8') as file:
     csv_reader = csv.DictReader(file)
@@ -28,7 +29,7 @@ with open('event_details.csv', mode='r', encoding='utf-8') as file:
 
 # Print the event details to verify
 event_descriptions = [row['description'] for row in event_details]
-
+event_title = [row['name'] for row in event_details]
 
 # Print the event details to verify
 print(event_details)
