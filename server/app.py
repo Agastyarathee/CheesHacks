@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 import firebase_admin
 from firebase_admin import credentials, db
 from flask_cors import CORS 
+import csv
 # Initialize Flask app
 app = Flask(__name__)
 
@@ -11,6 +12,26 @@ app = Flask(__name__)
 #     'databaseURL': 'https://your-database-name.firebaseio.com/'
 # })
 CORS(app) 
+
+# Read the organizations data CSV file
+with open('organizations_data.csv', mode='r', encoding='utf-8') as file:
+    csv_reader = csv.DictReader(file)
+    organizations_data = [row for row in csv_reader]
+
+
+# Extract only the descriptions from the organizations data
+club_descriptions = [row['description'] for row in organizations_data]
+# Read the event details CSV file
+with open('event_details.csv', mode='r', encoding='utf-8') as file:
+    csv_reader = csv.DictReader(file)
+    event_details = [row for row in csv_reader]
+
+# Print the event details to verify
+event_descriptions = [row['description'] for row in event_details]
+
+
+# Print the event details to verify
+print(event_details)
 # Dummy AI model function
 def dummy_ai_model(user_data):
     """
@@ -26,36 +47,11 @@ def submit_user_data():
         # Get JSON data from the request
         user_data = request.json
         print(user_data)
-        
-        # Validate user data fields
-        required_fields = ['teamwork', 'community_service', 'leadership', "learning", "critical_thinking", "hobbies", "club_wants"]
-        schema = {
-            "user_id": int,
-            "teamwork": bool,
-            "community_service": bool,
-            "leadership": bool,
-            "learning": bool,
-            "critical_thinking": bool,
-            "hobbies": str,
-            "club_wants": str
-        }
-        
-        schema.teamwork = user_data.get("teamwork")
-        schema.community_service = user_data.get("community_service")
-        schema.leadership = user_data.get("leadership")
-        schema.learning = user_data.get("learning")
-        schema.critical_thinking = user_data.get("critical_thinking")
-        schema.hobbies = user_data.get("hobbies")
-        schema.club_wants = user_data.get("club_wants")
-        
-        print(schema)
-        
-    
-
         # # Send schema to Firebase
         # ref = db.reference('users')  # Creates a 'schemas' node in the Firebase DB
         # ref.push(schema)  # Pushes the schema to the database
-
+        
+       
         # Run the AI model on the user data
         ai_result = dummy_ai_model(user_data)
 
