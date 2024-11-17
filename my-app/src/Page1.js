@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import axios from 'axios';
-import { v4 as uuidv4 } from 'uuid'; // Import UUID function
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import axios from "axios";
+import { v4 as uuidv4 } from "uuid"; // Import UUID function
 
 // Styled Components
 const FormWrapper = styled.div`
@@ -48,15 +48,15 @@ const Input = styled.input`
 const Button = styled.button`
   padding: 10px;
   font-size: 1rem;
-  background-color: #2575fc;
+  background-color: ${(props) => (props.disabled ? "#ccc" : "#2575fc")};
   color: white;
   border: none;
   border-radius: 5px;
-  cursor: pointer;
+  cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
   transition: background-color 0.3s ease;
 
   &:hover {
-    background-color: #0056d6;
+    background-color: ${(props) => (props.disabled ? "#ccc" : "#0056d6")};
   }
 `;
 
@@ -68,6 +68,7 @@ const Feedback = styled.p`
 
 const Page1 = () => {
   // Define the questions
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const questions = [
     {
       id: "teamwork",
@@ -115,6 +116,7 @@ const Page1 = () => {
   const [formData, setFormData] = useState({});
   const [feedback, setFeedback] = useState("");
   const [userId, setUserId] = useState("");
+  const [isFormValid, setIsFormValid] = useState(false); // New state for form validation
 
   // Generate a unique ID for the user when the form loads
   useEffect(() => {
@@ -131,6 +133,14 @@ const Page1 = () => {
     }));
   };
 
+  // Check if all fields are filled
+  useEffect(() => {
+    const allFieldsFilled =
+      questions.every((q) => formData[q.id] !== undefined) &&
+      additionalQuestions.every((q) => formData[q.id]);
+    setIsFormValid(allFieldsFilled);
+  }, [formData, questions, additionalQuestions]);
+
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -139,9 +149,13 @@ const Page1 = () => {
       // Attach the userId to the formData
       const dataToSend = { id: userId, ...formData };
 
-      const response = await axios.post("http://127.0.0.1:5000/submit", dataToSend, {
-        headers: { "Content-Type": "application/json" },
-      });
+      const response = await axios.post(
+        "http://127.0.0.1:5000/submit",
+        dataToSend,
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
       setFeedback("Form submitted successfully!");
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -189,7 +203,9 @@ const Page1 = () => {
             />
           </FormField>
         ))}
-        <Button type="submit">Submit</Button>
+        <Button type="submit" disabled={!isFormValid}>
+          Submit
+        </Button>
       </form>
       {feedback && <Feedback>{feedback}</Feedback>}
     </FormWrapper>
@@ -197,4 +213,3 @@ const Page1 = () => {
 };
 
 export default Page1;
-
