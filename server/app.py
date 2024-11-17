@@ -32,8 +32,8 @@ with open('organizations_data.csv', mode='r', encoding='utf-8') as file:
 
 
 # Extract only the descriptions from the organizations data
-club_descriptions = [row['description'] for row in organizations_data]
-club_title = [row['name'] for row in organizations_data]
+club_descriptions = [row['description'] for row in organizations_data][0:5]
+club_title = [row['name'] for row in organizations_data][0:5]
 # Read the event details CSV file
 with open('event_details.csv', mode='r', encoding='utf-8') as file:
     csv_reader = csv.DictReader(file)
@@ -56,6 +56,8 @@ def submit_user_data():
 
          # Run the AI model on the user data
         ai_result = listOfMatchingClubs(club_title,club_descriptions, user_data.get('teamwork') , user_data.get('community_service') , user_data.get('leadership'), user_data.get('learning'), user_data.get('critical_thinking'), user_data.get('hobbies') , user_data.get('club_preferences'))
+        print(ai_result)
+        
         if(ai_result == []):
             return jsonify({"error": "No matching clubs found"}), 404
         return "", 200
